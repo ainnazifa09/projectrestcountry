@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Best Places to Visit in Your Country Selected</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+    <ul id="list"></ul>
+    
+    <script src="main.js"></script>
+
+  
+    <nav class="navbar">
+        <div id="menu-icon" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+            <div class="dropdown">
+                <input type="text" id="countrySearch" oninput="searchCountries()" placeholder="Search for a country...">
+                <button class="dropbtn">Select Country</button>
+                <div class="dropdown-content" id="nameDropdown">
+                    <!-- Country names will be dynamically added here using JavaScript -->
+                </div>
+            </div>
+        </div>
+        <!-- Add your navigation links here -->
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <h1>Best Places to Visit in Your Country Selected!</h1>
+
+
+    <h2>Choose your dream country you want to visit! </h2>
+
+    <div class="countries" id="countries"></div>
+
+    <script src="restapi.js"></script>
+    
+    <script>
+        function updateCountryDropdown() {
+            // Your existing code to dynamically add country names
+        }
+
+        function searchCountries() {
+            var input, filter, dropdown, countries, a, i;
+            input = document.getElementById("countrySearch");
+            filter = input.value.toUpperCase();
+            dropdown = document.getElementById("nameDropdown");
+            countries = dropdown.getElementsByTagName("a");
+
+            for (i = 0; i < countries.length; i++) {
+                a = countries[i];
+                if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    a.style.display = "";
+                } else {
+                    a.style.display = "none";
+                }
+            }
+        }
+
+        updateCountryDropdown();
+
+        function toggleMenu() {
+            const menuIcon = document.getElementById('menu-icon');
+            menuIcon.classList.toggle('open');
+        }
+    </script>
+</body>
+</html>

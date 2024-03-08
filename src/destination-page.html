@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Destination Page</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        #backButton, #commentButton {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 15px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        #backButton {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #backButton:hover {
+            background-color: #45a049;
+        }
+
+        #commentButton {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        #commentButton:hover {
+            background-color: #0d8bf2;
+        }
+
+        #countryDetails {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            margin-bottom: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 90%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+            margin-bottom: 20px;
+            font-size: 32px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .details {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .left-details, .right-details {
+            flex: 1;
+        }
+
+        .left-details {
+            text-align: left;
+            margin-right: 30px;
+        }
+
+        .right-details {
+            text-align: right;
+            margin-left: 30px;
+            
+        }
+
+        p {
+            margin: 15px 0;
+            line-height: 1.6;
+        }
+
+        a {
+            color: #2196F3;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s ease-in-out;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        #map {
+            height: 400px;
+            width: 100%;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div id="countryDetails">
+        <h1>${country.name.common} (${country.name.official})</h1>
+        <img src="${country.flags.png}" alt="Flag">
+        <div class="details">
+            <div class="left-details">
+                <p><strong>Capital:</strong> ${country.capital}</p>
+                <p><strong>Currency:</strong> ${currenciesHTML}</p>
+                <p><strong>Region:</strong> ${country.region}</p>
+                <p><strong>Languages:</strong> ${Object.values(country.languages).join(', ')}</p>
+            </div>
+            <div class="right-details">
+                <p><strong>Population:</strong> ${country.population}</p>
+                <p><strong>Location:</strong> ${country.latlng.join(', ')}</p>
+                <p><strong>Continent:</strong> ${country.region}</p>
+                <p><strong>Google Map:</strong> 
+                    <a href="https://www.google.com/maps/place/${country.latlng.join(',')}">
+                        View on Google Maps
+                    </a>
+                </p>
+                <button onclick="viewOnGoogleMaps('${country.latlng.join(',')}')">View on Google Maps (JavaScript)</button>
+            </div>
+        </div>
+    </div>
+
+    <button id="backButton">Back</button>
+    
+   
+
+    <script>
+        document.getElementById("backButton").addEventListener("click", function () {
+            window.history.back();
+        });
+
+        // Function to extract the country name from the URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        // Function to fetch country details and display them
+        function loadCountryDetails() {
+            var countryName = getParameterByName('country');
+            if (countryName) {
+                fetch(`https://restcountries.com/v3.1/name/${encodeURIComponent(countryName)}`)
+                    .then(res => res.json())
+                    .then(data => displayCountryDetails(data[0]));
+            }
+        }
+
+        // Function to display country details on the page
+        function displayCountryDetails(country) {
+            var countryDetailsDiv = document.getElementById('countryDetails');
+            var currenciesHTML = "";
+
+            for (const currency of Object.values(country.currencies)) {
+                currenciesHTML += `${currency.name} (${currency.symbol}), `;
+            }
+            currenciesHTML = currenciesHTML.slice(0, -2); // Remove trailing comma and space
+
+            countryDetailsDiv.innerHTML = `
+                <h1>${country.name.common} (${country.name.official})</h1>
+                <img src="${country.flags.png}" alt="Flag">
+                <div class="details">
+                    <div class="left-details">
+                        <p><strong>Capital:</strong> ${country.capital}</p>
+                        <p><strong>Currency:</strong> ${currenciesHTML}</p>
+                        <p><strong>Region:</strong> ${country.region}</p>
+                        <p><strong>Languages:</strong> ${Object.values(country.languages).join(', ')}</p>
+                    </div>
+                    <div class="right-details">
+                        <p><strong>Population:</strong> ${country.population}</p>
+                        <p><strong>Location:</strong> ${country.latlng.join(', ')}</p>
+                        <p><strong>Continent:</strong> ${country.region}</p>
+                        <p><strong>Google Map:</strong> 
+                        <button onclick="viewOnGoogleMaps('${country.latlng.join(',')}')">View on Google Maps (JavaScript)</button>
+                        </p>
+                    </div>
+                </div>
+            `;
+
+            // Call function to initialize the map
+            initMap(country.latlng);
+        }
+
+        // Load country details when the page is loaded
+        document.addEventListener('DOMContentLoaded', loadCountryDetails);
+
+        // Function to initialize the map
+        function initMap(latlng) {
+            var map = new google.maps.Map(document.getElementById('map'), {
+                center: { lat: parseFloat(latlng[0]), lng: parseFloat(latlng[1]) },
+                zoom: 8
+            });
+
+            var marker = new google.maps.Marker({
+                position: { lat: parseFloat(latlng[0]), lng: parseFloat(latlng[1]) },
+                map: map,
+                title: 'Country Location'
+            });
+        }
+
+        // Function to open Google Maps in a new window using JavaScript
+        function viewOnGoogleMaps(latlng) {
+            window.open(`https://www.google.com/maps/place/${latlng}`);
+        }
+    </script>
+</body>
+</html>

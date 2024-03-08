@@ -1,0 +1,182 @@
+/* Add your global styles here */
+
+body, h1, p {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Times New Roman', sans-serif;
+
+  margin: 0;
+  padding: 0;
+  
+}
+
+.navbar {
+  position: absolute;
+  top: 489px;
+  left: 0;
+  width: 100%;
+  height: 45px;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background for the navbar */
+  padding: 15px;
+  display: flex;
+  
+  align-items: center;
+  z-index: 1; /* Ensure it's above the background image */
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  padding-right:  50px; /* Adjust the margin to control the spacing between navigation links */
+  
+}
+
+h1 {
+  text-align: center;
+  padding: 250px ;
+  color: #fff;
+  font-size: 2.5rem;
+  font-weight: bold;
+  background-image: url('al-aqsa.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  
+  
+}
+
+h1 span {
+  background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black background for the brand name */
+  padding: 10px;
+  border-radius: 5px;
+  
+}
+
+.countries {
+  max-width: 1200px;
+  margin: 20px auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  
+}
+
+.country-div {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px; /* Adjust the radius to control the curvature */
+  overflow: hidden;
+  transition: transform 0.3s ease-in-out;
+  
+}
+
+.country-div:hover {
+  transform: scale(1.05);
+}
+
+img {
+  width: 100%;
+  height: 180px;
+  border-bottom: 1px solid #ddd;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 10px 0;
+  padding-left: 15px;
+  
+}
+
+h4 {
+  padding-left: 15px;
+  margin: 5px 0;
+  height: 30px;
+  
+}
+
+
+h3 {
+  padding-left: 83px;
+  text-align: center;
+  vertical-align: middle; /* Align the text vertically to the middle */
+  
+}
+
+/* Dropdown styles */
+/* ... Previous CSS rules ... */
+
+.dropdown {
+  display: inline-block;
+  position: relative; 
+  margin-bottom: 20px;
+  
+}
+
+.dropbtn {
+  background: #FF7B89;
+  color: black;
+  padding: 8px 20px;
+  font-size: 17px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 15px;
+  
+  
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+  z-index: 1;
+  
+    
+}
+
+#countrySearch {
+  width: 200px;
+  padding: 10px;
+  border-radius: 5px; /* Adjust the radius to control the curvature of the search box */
+  margin-right: 5px; /* Adjust the margin to control the spacing between the search box and "Select Country" button */
+  margin-top: 25px;
+}
+
+.dropdown-content a {
+  color: #333;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+/* Back button styles */
+#backButton {
+  background-color: #333;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+#backButton:hover {
+  background-color: #555;
+}
